@@ -12,10 +12,6 @@ const clearButton = document.querySelector(".clear-btn");
 let editElement;
 let editFlag = false;
 let editID = "";
-// ****** EVENT LISTENERS **********
-// submit form
-
-
 
 // ****** FUNCTIONS **********
 const addItem = (e) => {
@@ -63,7 +59,7 @@ const addItem = (e) => {
         displayAlert("please enter value", "danger");
     }
 };
-form.addEventListener("submit", addItem);
+
 
 // display alert
 const displayAlert = (text, action) => {
@@ -75,7 +71,15 @@ const displayAlert = (text, action) => {
         alertElement.classList.remove(`alert-${action}`);
     }, 1000);
 };
-
+// clear items
+const clearItems = () => {
+  const items = document.querySelectorAll(".grocery-item");
+  if(items.length > 0){
+    items.forEach((item) => {
+      list.removeChild(item);
+    });
+  }
+}
 // set back to default
 const setBackToDefault = () => {
   grocery.value = "";
@@ -88,3 +92,9 @@ const addToLocalStorage = (id, value) => {
   console.log("added to local storage");
 };
 // ****** SETUP ITEMS **********
+
+// ****** EVENT LISTENERS **********
+// submit form
+form.addEventListener("submit", addItem);
+// clear items
+clearButton.addEventListener("click", clearItems);
