@@ -41,6 +41,9 @@ const addItem = (e) => {
         <i class="fas fa-trash"></i>
       </button>
     </div>`;
+    const deleteButton = element.querySelector(".delete-btn");
+    const editButton = element.querySelector(".edit-btn");
+    console.log(deleteButton);
     // append child
     list.appendChild(element);
     //display alert
@@ -79,7 +82,11 @@ const clearItems = () => {
       list.removeChild(item);
     });
   }
-}
+  container.classList.remove("show-container");
+  displayAlert("empty-list", "danger");
+  setBackToDefault();
+  // localStorage.removeItem("list");
+};
 // set back to default
 const setBackToDefault = () => {
   grocery.value = "";
