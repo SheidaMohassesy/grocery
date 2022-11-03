@@ -16,20 +16,20 @@ let editID = "";
 // ****** FUNCTIONS **********
 const addItem = (e) => {
 
-    e.preventDefault();
-    const value = grocery.value;
-    const id = new Date().getTime().toString();
-    if(value && !editFlag){
-        const element = document.createElement("article");
+  e.preventDefault();
+  const value = grocery.value;
+  const id = new Date().getTime().toString();
+  if (value && !editFlag) {
+    const element = document.createElement("article");
     // add class
     element.classList.add("grocery-item");
     // add id
     const attr = document.createAttribute("data-id");
     attr.value = id;
     element.setAttributeNode(attr);
-    
+
     // element.setAttribute("data-id", id);
-    
+
     // element.attributes["data-id"] = id;
 
     element.innerHTML = `<p class="title">${value}</p>
@@ -46,7 +46,7 @@ const addItem = (e) => {
 
     deleteButton.addEventListener("click", deleteItem);
     editButton.addEventListener("click", editItem);
-    
+
     // append child
     list.appendChild(element);
     //display alert
@@ -57,30 +57,34 @@ const addItem = (e) => {
     addToLocalStorage(id, value);
     // set back to default
     setBackToDefault()
-    }
-    else if(value && editFlag){
-        console.log("editing");
-    }
-    else{
-        displayAlert("please enter value", "danger");
-    }
+  }
+  else if (value && editFlag) {
+    editElement.innerHTML = value;
+    displayAlert("value changed", "success");
+    // edit the local storage
+    // editLocalSotrage(editID, value);
+    setBackToDefault();
+  }
+  else {
+    displayAlert("please enter value", "danger");
+  }
 };
 
 
 // display alert
 const displayAlert = (text, action) => {
-    alertElement.textContent = text;
-    alertElement.classList.add(`alert-${action}`);
-    // remove alert
-    setTimeout(() => {
-        alertElement.textContent = "";
-        alertElement.classList.remove(`alert-${action}`);
-    }, 1000);
+  alertElement.textContent = text;
+  alertElement.classList.add(`alert-${action}`);
+  // remove alert
+  setTimeout(() => {
+    alertElement.textContent = "";
+    alertElement.classList.remove(`alert-${action}`);
+  }, 1000);
 };
 // clear items
 const clearItems = () => {
   const items = document.querySelectorAll(".grocery-item");
-  if(items.length > 0){
+  if (items.length > 0) {
     items.forEach((item) => {
       list.removeChild(item);
     });
@@ -95,18 +99,25 @@ const deleteItem = (e) => {
   const element = e.currentTarget.parentElement.parentElement;
   const id = element.dataset.id;
   list.removeChild(element);
-  if(list.children.length === 0){
+  if (list.children.length === 0) {
     container.classList.remove("show-container");
     displayAlert("item removed", "danger");
     setBackToDefault();
   }
   // remove from local storage
   // removeFromLocalStorage(id);
-}
+};
 // edit item
-const editItem = () => {
-  console.log("item edit");
-}
+const editItem = (e) => {
+  const element = e.currentTarget.parentElement.parentElement;
+  // set edit item
+  editElement = e.currentTarget.parentElement.previousElementSibling;
+  // set form value
+  grocery.value = editElement.innerHTML;
+  editFlag = true;
+  editID = element.dataset.id;
+  submitButton.innerText = "edit";
+};
 // set back to default
 const setBackToDefault = () => {
   grocery.value = "";
