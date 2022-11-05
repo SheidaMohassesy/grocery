@@ -11,7 +11,7 @@ const clearButton = document.querySelector(".clear-btn");
 
 let editElement;
 let editFlag = false;
-let editID = "";
+let editId = "";
 
 // ****** FUNCTIONS **********
 const addItem = (e) => {
@@ -62,7 +62,7 @@ const addItem = (e) => {
     editElement.innerHTML = value;
     displayAlert("value changed", "success");
     // edit the local storage
-    // editLocalSotrage(editID, value);
+    editLocalSotrage(editId, value);
     setBackToDefault();
   }
   else {
@@ -115,22 +115,38 @@ const editItem = (e) => {
   // set form value
   grocery.value = editElement.innerHTML;
   editFlag = true;
-  editID = element.dataset.id;
+  editId = element.dataset.id;
   submitButton.innerText = "edit";
 };
 // set back to default
 const setBackToDefault = () => {
   grocery.value = "";
   editFlag = false;
-  editID = "";
+  editId = "";
   submitButton.innerText = "submit";
 };
 // ****** LOCAL STORAGE **********
 const addToLocalStorage = (id, value) => {
+  const grocery = {id,value};
+  let items = localStorage.getItem("list")?JSON.parse(localStorage.getItem("list")):[];
+  items.push(grocery);
+  localStorage.setItem("list",JSON.stringify(items));
   // console.log("added to local storage");
 };
 const removeFromLocalStorage = (id) => {
 };
+const editLocalSotrage = (id, value) => {
+
+};
+
+// localStorage API
+// setItem
+// getItem
+// removeItem
+// save as strings
+// localStorage.setItem("orange",JSON.stringify(["item", "item2"]));
+// const oranges = JSON.parse(localStorage.getItem("orange"));
+// console.log(oranges);
 // ****** SETUP ITEMS **********
 
 // ****** EVENT LISTENERS **********
